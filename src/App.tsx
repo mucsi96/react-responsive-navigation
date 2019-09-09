@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
+import { useWidth } from "./useWidth";
 
 const words = Array.from(
   new Set(
@@ -19,11 +20,12 @@ const words = Array.from(
 
 const App: React.FC = () => {
   const [items, setItems] = useState<string[]>(["Lorem"]);
+  const [ref, width] = useWidth();
 
   return (
     <div className="App">
-      <header className="App-header">
-        {items.map((item, index) => (
+      <header className="App-header" ref={ref}>
+        {items.map((item: string, index: number) => (
           <span key={index}>
             <span className="App-item">{item}</span>
           </span>
@@ -38,6 +40,7 @@ const App: React.FC = () => {
       >
         Add new
       </button>
+      <p>{`Current width: ${width}px`}</p>
     </div>
   );
 };

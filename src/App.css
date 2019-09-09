@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  color: white;
 }
 
 .App-logo {
@@ -27,7 +28,7 @@
 
 .App-button {
   padding: 5px;
-  font-size: 2em;
+  font-size: 1.5em;
   flex-basis: 100%;
 }
 
