@@ -1,1 +1,1 @@
-# react-responsive-navigation
+# Responsive navigation with React
