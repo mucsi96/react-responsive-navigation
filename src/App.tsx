@@ -41,15 +41,11 @@ const App: React.FC = () => {
           ))}
       </header>
       <MeasureList onMeasurement={setItemDimensions}>
-        {({ ref }) => (
-          <header className="App-header" ref={ref}>
-            {items.map((item: string, index: number) => (
-              <span key={index}>
-                <span className="App-item">{item}</span>
-              </span>
-            ))}
-          </header>
-        )}
+        {items.map((item: string, index: number) => (
+          <span key={index}>
+            <span className="App-item">{item}</span>
+          </span>
+        ))}
       </MeasureList>
       <button
         className="App-button"
