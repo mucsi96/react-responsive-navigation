@@ -1,6 +1,5 @@
 .App {
   text-align: center;
-  color: white;
 }
 
 .App-logo {
@@ -15,11 +14,10 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-item {
+  font-size: calc(10px + 2vmin);
   background-color: antiquewhite;
   padding: 5px;
   margin: 5px;

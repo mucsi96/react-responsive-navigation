@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import { useWidth } from "./useWidth";
+import { MeasureList } from "./MeasureList";
 
 const words = Array.from(
   new Set(
@@ -20,6 +21,7 @@ const words = Array.from(
 
 const App: React.FC = () => {
   const [items, setItems] = useState<string[]>(["Lorem"]);
+  const [itemDimensions, setItemDimensions] = useState<number[]>([]);
   const [ref, width] = useWidth();
 
   return (
@@ -31,6 +33,13 @@ const App: React.FC = () => {
           </span>
         ))}
       </header>
+      <MeasureList onMeasurement={setItemDimensions}>
+        {items.map((item: string, index: number) => (
+          <span key={index}>
+            <span className="App-item">{item}</span>
+          </span>
+        ))}
+      </MeasureList>
       <button
         className="App-button"
         type="button"
@@ -41,6 +50,7 @@ const App: React.FC = () => {
         Add new
       </button>
       <p>{`Current width: ${width}px`}</p>
+      <p>{`Current dimensions: ${itemDimensions}`}</p>
     </div>
   );
 };
