@@ -22,23 +22,34 @@ const words = Array.from(
 const App: React.FC = () => {
   const [items, setItems] = useState<string[]>(["Lorem"]);
   const [itemDimensions, setItemDimensions] = useState<number[]>([]);
-  const [ref, width] = useWidth();
+  const [ref, available] = useWidth();
+  let occupied = 0;
+  const cutIndex = itemDimensions.findIndex(width => {
+    occupied += width;
+    return occupied > available;
+  });
 
   return (
     <div className="App">
       <header className="App-header" ref={ref}>
-        {items.map((item: string, index: number) => (
-          <span key={index}>
-            <span className="App-item">{item}</span>
-          </span>
-        ))}
+        {items
+          .slice(0, cutIndex !== -1 ? cutIndex : undefined)
+          .map((item: string, index: number) => (
+            <span key={index}>
+              <span className="App-item">{item}</span>
+            </span>
+          ))}
       </header>
       <MeasureList onMeasurement={setItemDimensions}>
-        {items.map((item: string, index: number) => (
-          <span key={index}>
-            <span className="App-item">{item}</span>
-          </span>
-        ))}
+        {({ ref }) => (
+          <header className="App-header" ref={ref}>
+            {items.map((item: string, index: number) => (
+              <span key={index}>
+                <span className="App-item">{item}</span>
+              </span>
+            ))}
+          </header>
+        )}
       </MeasureList>
       <button
         className="App-button"
@@ -49,8 +60,15 @@ const App: React.FC = () => {
       >
         Add new
       </button>
-      <p>{`Current width: ${width}px`}</p>
-      <p>{`Current dimensions: ${itemDimensions}`}</p>
+      <header className="App-header">
+        {items
+          .slice(cutIndex !== -1 ? cutIndex : itemDimensions.length)
+          .map((item: string, index: number) => (
+            <span key={index}>
+              <span className="App-item">{item}</span>
+            </span>
+          ))}
+      </header>
     </div>
   );
 };

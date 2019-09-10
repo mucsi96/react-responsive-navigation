@@ -1,9 +1,15 @@
-import React, { useRef, useLayoutEffect, useState } from "react";
+import React, {
+  useRef,
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useMemo
+} from "react";
 import { createPortal } from "react-dom";
-import { usePortal } from "./usePortal";
 
 interface IMeasureListProps {
   onMeasurement: (dimensions: number[]) => void;
+  children: ({ ref }: { ref: React.RefObject<HTMLElement> }) => React.ReactNode;
 }
 
 export const MeasureList: React.FC<IMeasureListProps> = ({
@@ -11,7 +17,20 @@ export const MeasureList: React.FC<IMeasureListProps> = ({
   onMeasurement
 }) => {
   const ref = useRef<HTMLElement>(null);
+  const offscreenContainer = useMemo(() => {
+    const element = document.createElement("div");
+    element.style.position = "absolute";
+    element.style.left = "-9999px";
+    return element;
+  }, []);
+  const portalRef = useRef(offscreenContainer);
   const [dimensions, setDimensions] = useState<number[]>([]);
+
+  useEffect(() => {
+    const element = portalRef.current;
+    document.body.appendChild(element);
+    return () => element.remove();
+  }, []);
 
   useLayoutEffect(() => {
     const element = ref.current;
@@ -32,10 +51,5 @@ export const MeasureList: React.FC<IMeasureListProps> = ({
     }
   }, [children, onMeasurement, dimensions]);
 
-  return createPortal(
-    <>
-      <span ref={ref}>{children}</span>
-    </>,
-    usePortal()
-  );
+  return createPortal(children({ ref }), portalRef.current);
 };
